@@ -10,12 +10,13 @@ class Tile:
     def rotate(self,n:int=1):
         """rotate the image of the tile + the sides n times"""
         newImage:Image.Image = self.image.rotate(90*n)
-        newSides:List[str] = [self.sides[(x-n)%4] for x in range(len(self.sides))]
+        newSides:List[str] = [self.sides[(x+n)%4] for x in range(len(self.sides))]
         return Tile(newImage,newSides)
     
     def match(self,other, sideN:int) -> bool:
         """check if the side of self matches with the corresponding side of the other"""
         return self.sides[sideN] == other.sides[(sideN+2) % 4][::-1]
+    
     
     def __repr__(self) -> str:
         return str(self.sides)

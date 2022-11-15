@@ -2,6 +2,7 @@ from tile import Tile
 from typing import List,Tuple,Dict
 import glob
 from PIL import Image
+from random import choice
 
 ABC:str = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'
 
@@ -45,6 +46,8 @@ def load_batch(path:str,div:int) -> List[Tile]:
 
             t = Tile(image,sides)
             tbatch=[t]
+
+            
             for a in range(1,4):
                 if not t.rotate(a) in tbatch:
                     tbatch.append(t.rotate(a))
@@ -70,6 +73,21 @@ def get_colors(imgs:List[Image.Image]) -> Dict[Tuple[int,int,int],str]:
 
 
     return r
+
+
+def choose(grid:List[List[int]]) -> Tuple[int,int]:
+    min_val = float('+inf')
+
+    for line in grid:
+        for n in line:
+            if n < min_val and n > 0:
+                min_val = n
+    all_options : List[Tuple[int,int]] = []
+    for y in range(len(grid)):
+        for x in range(len(grid[y])):
+            if grid[y][x] == min_val:
+                all_options.append((x,y))
+    return choice(all_options)
 
 if __name__ == '__main__':
     b = load_batch('tiles/circuit',3)
